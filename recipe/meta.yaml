@@ -6,13 +6,13 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.zip
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.zip
   sha256: 77ee2534ba651a1f306c85d7b505bc3ccee8fea77450ebafafc26aec16e5445d
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
-  skip: True  # [py<37]
+  skip: true  # [py<37]
 
 requirements:
   host:
@@ -22,7 +22,7 @@ requirements:
     - wheel
   run:
     - python
-    - azure-common >=1.1,<1.2
+    - azure-common >=1.1,<2
     - azure-core >=1.24.0,<2.0.0
     - isodate >=0.6.1
     - typing-extensions >=4.0.1
