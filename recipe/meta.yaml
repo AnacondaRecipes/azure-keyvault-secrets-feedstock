@@ -1,18 +1,18 @@
 {% set name = "azure-keyvault-secrets" %}
-{% set version = "4.7.0" %}
+{% set version = "4.11.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.zip
-  sha256: 77ee2534ba651a1f306c85d7b505bc3ccee8fea77450ebafafc26aec16e5445d
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace("-", "_") }}-{{ version }}.tar.gz
+  sha256: ac14727b9159cca353173ec5a454d8d7b192a6f2f5e7eb540f9fbcf914fa0ca0
 
 build:
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
-  skip: true  # [py<37]
+  skip: true  # [py<39]
 
 requirements:
   host:
@@ -22,11 +22,12 @@ requirements:
     - wheel
   run:
     - python
-    - azure-common >=1.1,<2
-    - azure-core >=1.24.0,<2.0.0
+    - azure-core >=1.31.0
     - isodate >=0.6.1
-    - typing-extensions >=4.0.1
+    - typing-extensions >=4.6.0
 
+# Test are required devtools_testutils package (azure-devtools) which is not supported by Anaconda.
+# Only pip check is performed.
 test:
   imports:
     - azure.keyvault.secrets
@@ -35,6 +36,7 @@ test:
     - pip
   commands: 
     - pip check
+
 
 about:
   home: https://learn.microsoft.com/en-au/azure/key-vault/
@@ -49,7 +51,7 @@ about:
     - Cryptographic key management (azure-keyvault-keys) - create, store, and control access to the keys used to encrypt your data
     - Certificate management (azure-keyvault-certificates) - create, manage, and deploy public and private SSL/TLS certificates
     - Vault administration (azure-keyvault-administration) - role-based access control (RBAC), and vault-level backup and restore options
-  doc_url: https://azuresdkdocs.blob.core.windows.net/$web/python/azure-keyvault-secrets/latest/index.html
+  doc_url: https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/keyvault/azure-keyvault-secrets/README.md
   dev_url: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/keyvault/azure-keyvault-secrets
 
 extra:
